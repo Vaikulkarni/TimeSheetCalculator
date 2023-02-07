@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        input[type="time"] {
+          margin: 10px 0;
+          padding: 5px;
+          font-size: 18px;
+        }
+        
+        button {
+          margin: 10px 0;
+          padding: 10px 20px;
+          font-size: 18px;
+          background-color: lightblue;
+          border: none;
+          border-radius: 5px;
+        }
+      </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Timesheet Calculator</h1>
+    <label for="start-time">Start time:</label>
+    <input type="time" id="start-time" name="start-time">
+    <label for="end-time">End time:</label>
+    <input type="time" id="end-time" name="end-time">
+    <label for="break-time">Break time (in minutes):</label>
+    <input type="number" id="break-time" name="break-time" min="0" step="15">
+    <button id="calculate-button">Calculate</button>
+    <p id="output"></p>
+  </div>
+  <script>
+    const startTimeInput = document.querySelector("#start-time");
+    const endTimeInput = document.querySelector("#end-time");
+    const breakTimeInput = document.querySelector("#break-time");
+    const calculateButton = document.querySelector("#calculate-button");
+    const output = document.querySelector("#output");
+
+    calculateButton.addEventListener("click", function() {
+      const startTime = startTimeInput.value;
+      const endTime = endTimeInput.value;
+      const breakTime = breakTimeInput.value;
+
+      // Convert the input times to minutes
+      const startTimeInMinutes = convertToMinutes(startTime);
+      const endTimeInMinutes = convertToMinutes(endTime);
+
+      // Calculate the total hours worked
+      const totalMinutes = endTimeInMinutes - startTimeInMinutes - breakTime;
+      const totalHours = totalMinutes / 60;
+
+      output.innerHTML = "Total hours worked: " + totalHours.toFixed(2);
+    });
+
+    function convertToMinutes(time) {
+      const timeParts = time.split(":");
+      const hours = parseInt(timeParts[0]);
+      const minutes = parseInt(timeParts[1]);
+      return hours * 60 + minutes;
+    }
+  </script>
+</body>
+</html>
